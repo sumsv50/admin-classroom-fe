@@ -9,13 +9,16 @@ import { HelmetProvider } from 'react-helmet-async';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import reportWebVitals from './reportWebVitals';
+import { AdminProvider } from './contexts/adminContext';
 
 // ----------------------------------------------------------------------
 
 ReactDOM.render(
   <HelmetProvider>
     <BrowserRouter>
-      <App />
+      <AdminProvider>
+        <App />
+      </AdminProvider>
     </BrowserRouter>
   </HelmetProvider>,
   document.getElementById('root')

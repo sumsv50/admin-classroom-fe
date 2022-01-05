@@ -17,12 +17,14 @@ import {
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { authentication } from '../../../utils/request';
+import useAdminHook from '../../../contexts/adminHook';
 
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const { setAdminInfo } = useAdminHook();
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
@@ -40,8 +42,9 @@ export default function LoginForm() {
     validationSchema: LoginSchema,
     onSubmit: async (values) => {
       const { email, password } = values;
-      const isSuccess = await authentication({ email, password });
-      if (isSuccess) {
+      const adminInfo = await authentication({ email, password });
+      if (adminInfo) {
+        setAdminInfo(adminInfo);
         return navigate('/dashboard', { replace: true });
       }
     }

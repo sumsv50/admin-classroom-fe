@@ -8,9 +8,9 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { alpha } from '@mui/material/styles';
 import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '@mui/material';
 // components
-import MenuPopover from '../../components/MenuPopover';
-//
 import account from '../../_mocks_/account';
+import MenuPopover from '../../components/MenuPopover';
+import useAdminHook from '../../contexts/adminHook';
 
 // ----------------------------------------------------------------------
 
@@ -38,6 +38,7 @@ export default function AccountPopover() {
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const { adminInfo } = useAdminHook();
 
   const handleOpen = () => {
     setOpen(true);
@@ -79,10 +80,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle1" noWrap>
-            {account.displayName}
+            {adminInfo?.name}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {adminInfo?.email}
           </Typography>
         </Box>
 
@@ -117,6 +118,7 @@ export default function AccountPopover() {
             variant="outlined"
             onClick={() => {
               localStorage.removeItem('token');
+              localStorage.removeItem('adminInfo');
               navigate('/login', { replace: true });
             }}
           >

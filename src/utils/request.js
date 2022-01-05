@@ -47,12 +47,13 @@ export async function authentication(data) {
     const token = response?.authorization;
 
     if (!response?.isSuccess || !token) {
-      return false;
+      return null;
     }
     localStorage.setItem('token', token);
-    return true;
+    localStorage.setItem('adminInfo', JSON.stringify(response.admin));
+    return response.admin;
   } catch (err) {
     console.log(err);
-    return false;
+    return null;
   }
 }
