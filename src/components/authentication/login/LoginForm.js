@@ -16,6 +16,7 @@ import {
   FormControlLabel
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import { authentication } from '../../../utils/request';
 
 // ----------------------------------------------------------------------
 
@@ -25,7 +26,9 @@ export default function LoginForm() {
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    password: Yup.string().required('Password is required')
+    password: Yup.string()
+      .required('Password is required')
+      .min(6, 'Password must be more than 6 characters')
   });
 
   const formik = useFormik({
@@ -35,8 +38,12 @@ export default function LoginForm() {
       remember: true
     },
     validationSchema: LoginSchema,
-    onSubmit: () => {
-      navigate('/dashboard', { replace: true });
+    onSubmit: async (values) => {
+      const { email, password } = values;
+      const isSuccess = await authentication({ email, password });
+      if (isSuccess) {
+        return navigate('/dashboard', { replace: true });
+      }
     }
   });
 
