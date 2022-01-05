@@ -14,7 +14,7 @@ import ColorPreview from '../../ColorPreview';
 const ProductImgStyle = styled('img')({
   top: 0,
   width: '100%',
-  height: '100%',
+  height: '90%',
   objectFit: 'cover',
   position: 'absolute'
 });
@@ -30,7 +30,7 @@ export default function ShopProductCard({ product }) {
 
   return (
     <Card>
-      <Box sx={{ pt: '100%', position: 'relative' }}>
+      <Box sx={{ pt: '60%', position: 'relative' }}>
         {status && (
           <Label
             variant="filled"
@@ -49,28 +49,13 @@ export default function ShopProductCard({ product }) {
         <ProductImgStyle alt={name} src={cover} />
       </Box>
 
-      <Stack spacing={2} sx={{ p: 3 }}>
+      <Stack spacing={2} sx={{ p: 3, pt: 0 }}>
         <Link to="#" color="inherit" underline="hover" component={RouterLink}>
+          <Typography variant="subtitle1">[CQ2018] Lap trinh huong doi tuonng</Typography>
+        </Link>
+        <Stack direction="row" alignItems="center" justifyContent="space-between">
           <Typography variant="subtitle2" noWrap>
             {name}
-          </Typography>
-        </Link>
-
-        <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <ColorPreview colors={colors} />
-          <Typography variant="subtitle1">
-            <Typography
-              component="span"
-              variant="body1"
-              sx={{
-                color: 'text.disabled',
-                textDecoration: 'line-through'
-              }}
-            >
-              {priceSale && fCurrency(priceSale)}
-            </Typography>
-            &nbsp;
-            {fCurrency(price)}
           </Typography>
         </Stack>
       </Stack>

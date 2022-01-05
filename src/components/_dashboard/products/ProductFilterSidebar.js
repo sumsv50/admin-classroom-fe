@@ -72,15 +72,6 @@ export default function ShopFilterSidebar({
 
   return (
     <>
-      <Button
-        disableRipple
-        color="inherit"
-        endIcon={<Icon icon={roundFilterList} />}
-        onClick={onOpenFilter}
-      >
-        Filters&nbsp;
-      </Button>
-
       <FormikProvider value={formik}>
         <Form autoComplete="off" noValidate>
           <Drawer
