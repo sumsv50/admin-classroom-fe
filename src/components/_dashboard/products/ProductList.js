@@ -1,7 +1,10 @@
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 // material
 import { Grid } from '@mui/material';
+import LoadingComponent from '../app/LoadingComponent';
 import ShopProductCard from './ProductCard';
+import { getData } from '../../../utils/request';
 
 // ----------------------------------------------------------------------
 
@@ -10,13 +13,30 @@ ProductList.propTypes = {
 };
 
 export default function ProductList({ products, ...other }) {
+  const [rooms, setRooms] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(async () => {
+    setIsLoading(true);
+    const resData = await getData('api/classes');
+    if (!resData.isSuccess) {
+      return;
+    }
+    setIsLoading(false);
+    setRooms(resData.classes ?? []);
+  }, []);
+
   return (
     <Grid container spacing={3} {...other}>
-      {products.map((product) => (
-        <Grid key={product.id} item xs={12} sm={6} md={4}>
-          <ShopProductCard product={product} />
-        </Grid>
-      ))}
+      {isLoading ? (
+        <LoadingComponent />
+      ) : (
+        rooms.map((room) => (
+          <Grid key={room.id} item xs={12} sm={6} md={4}>
+            <ShopProductCard room={room} />
+          </Grid>
+        ))
+      )}
     </Grid>
   );
 }

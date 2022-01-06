@@ -25,8 +25,9 @@ ShopProductCard.propTypes = {
   product: PropTypes.object
 };
 
-export default function ShopProductCard({ product }) {
-  const { name, cover, price, colors, status, priceSale } = product;
+export default function ShopProductCard({ room }) {
+  const { name, description, status } = room;
+  const cover = 'https://res.cloudinary.com/dzhnjuvzt/image/upload/v1637768355/class_ayj0mh.jpg';
 
   return (
     <Card>
@@ -51,11 +52,11 @@ export default function ShopProductCard({ product }) {
 
       <Stack spacing={2} sx={{ p: 3, pt: 0 }}>
         <Link to="#" color="inherit" underline="hover" component={RouterLink}>
-          <Typography variant="subtitle1">[CQ2018] Lap trinh huong doi tuonng</Typography>
+          <Typography variant="subtitle1"> {name} </Typography>
         </Link>
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Typography variant="subtitle2" noWrap>
-            {name}
+          <Typography variant="subtitle2" color="#565656" noWrap>
+            {description}
           </Typography>
         </Stack>
       </Stack>

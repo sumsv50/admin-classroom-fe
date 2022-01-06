@@ -1,13 +1,14 @@
 import { toast } from 'react-toastify';
 
 export default async function handleError(response) {
-  const resJson = await response.json();
+  let resJson;
   if (!response.oke) {
     switch (response.status) {
       case 401:
-        window.location.assign('/sign-in');
+        window.location.assign('/login');
         break;
       case 400:
+        resJson = await response.json();
         toast.error(resJson.message ?? 'Error!');
         break;
       default:
