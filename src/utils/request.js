@@ -1,24 +1,29 @@
 import handleError from './handleError';
 
 export async function postData(url = '', data = {}) {
-  const token = localStorage.getItem('token');
-  const response = await fetch(`${process.env.REACT_APP_BASE_URL}/${url}`, {
-    method: 'POST',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-    body: JSON.stringify(data)
-  });
-  if (!response.ok) {
-    return handleError(response);
+  try {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/${url}`, {
+      method: 'POST',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify(data)
+    });
+    if (!response.ok) {
+      return handleError(response);
+    }
+    const dataRes = await response.json();
+    return dataRes;
+  } catch (err) {
+    console.log(err);
+    return {};
   }
-  const dataRes = await response.json();
-  return dataRes;
 }
 
 export async function getData(url = '') {
@@ -35,9 +40,11 @@ export async function getData(url = '') {
       return handleError(response);
     }
 
-    return await response.json();
+    const dataRes = await response.json();
+    return dataRes;
   } catch (err) {
     console.log(err);
+    return {};
   }
 }
 

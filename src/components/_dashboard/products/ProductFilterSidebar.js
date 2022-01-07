@@ -3,7 +3,6 @@ import { Icon } from '@iconify/react';
 import { Form, FormikProvider } from 'formik';
 import closeFill from '@iconify/icons-eva/close-fill';
 import roundClearAll from '@iconify/icons-ic/round-clear-all';
-import roundFilterList from '@iconify/icons-ic/round-filter-list';
 // material
 import {
   Box,
@@ -56,18 +55,11 @@ export const FILTER_COLOR_OPTIONS = [
 ShopFilterSidebar.propTypes = {
   isOpenFilter: PropTypes.bool,
   onResetFilter: PropTypes.func,
-  onOpenFilter: PropTypes.func,
   onCloseFilter: PropTypes.func,
   formik: PropTypes.object
 };
 
-export default function ShopFilterSidebar({
-  isOpenFilter,
-  onResetFilter,
-  onOpenFilter,
-  onCloseFilter,
-  formik
-}) {
+export default function ShopFilterSidebar({ isOpenFilter, onResetFilter, onCloseFilter, formik }) {
   const { values, getFieldProps, handleChange } = formik;
 
   return (

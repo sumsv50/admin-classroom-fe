@@ -8,23 +8,27 @@ import { getData } from '../../../utils/request';
 
 // ----------------------------------------------------------------------
 
-ProductList.propTypes = {
-  products: PropTypes.array.isRequired
-};
+// ProductList.propTypes = {
+//   products: PropTypes.array.isRequired
+// };
 
-export default function ProductList({ products, ...other }) {
+export default function ProductList({ ...other }) {
   const [rooms, setRooms] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(async () => {
-    setIsLoading(true);
-    const resData = await getData('api/classes');
-    if (!resData.isSuccess) {
-      return;
-    }
-    setIsLoading(false);
-    setRooms(resData.classes ?? []);
-  }, []);
+  useEffect(
+    () =>
+      (async () => {
+        setIsLoading(true);
+        const resData = await getData('api/classes');
+        if (!resData.isSuccess) {
+          return;
+        }
+        setRooms(resData.classes ?? []);
+        setIsLoading(false);
+      })(),
+    []
+  );
 
   return (
     <Grid container spacing={3} {...other}>

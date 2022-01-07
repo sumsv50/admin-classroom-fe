@@ -4,12 +4,7 @@ import { useState } from 'react';
 import { Container, Stack, Typography } from '@mui/material';
 // components
 import Page from '../components/Page';
-import {
-  ProductSort,
-  ProductList,
-  ProductCartWidget,
-  ProductFilterSidebar
-} from '../components/_dashboard/products';
+import { ProductSort, ProductList, ProductFilterSidebar } from '../components/_dashboard/products';
 //
 import PRODUCTS from '../_mocks_/products';
 
@@ -73,7 +68,6 @@ export default function EcommerceShop() {
         </Stack>
 
         <ProductList products={PRODUCTS} />
-        <ProductCartWidget />
       </Container>
     </Page>
   );
