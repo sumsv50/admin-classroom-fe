@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { createContext, useState } from 'react';
 
 const AdminContext = createContext();
@@ -8,6 +9,10 @@ const AdminProvider = ({ children }) => {
   return (
     <AdminContext.Provider value={{ adminInfo, setAdminInfo }}> {children} </AdminContext.Provider>
   );
+};
+
+AdminProvider.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node])
 };
 
 export { AdminProvider, AdminContext };

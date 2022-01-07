@@ -18,7 +18,17 @@ const ProductImgStyle = styled('img')({
 // ----------------------------------------------------------------------
 
 ShopProductCard.propTypes = {
-  product: PropTypes.object
+  room: PropTypes.object,
+  name: PropTypes.objectOf(PropTypes.string),
+  description: PropTypes.objectOf(PropTypes.string),
+  status: PropTypes.objectOf(PropTypes.string)
+};
+ShopProductCard.defaultProps = {
+  room: {
+    name: '',
+    description: '',
+    status: ''
+  }
 };
 
 export default function ShopProductCard({ room }) {

@@ -45,7 +45,7 @@ export default function LoginForm() {
       const adminInfo = await authentication({ email, password });
       if (adminInfo) {
         setAdminInfo(adminInfo);
-        return navigate('/dashboard', { replace: true });
+        navigate('/dashboard', { replace: true });
       }
     }
   });
