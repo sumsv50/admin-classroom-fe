@@ -1,15 +1,23 @@
+import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
 import { useRef, useState } from 'react';
-import editFill from '@iconify/icons-eva/edit-fill';
-import { Link as RouterLink } from 'react-router-dom';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
 // material
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
+import UserEditStudentId from './UserEditStudentId';
 
 // ----------------------------------------------------------------------
 
-export default function UserMoreMenu() {
+UserMoreMenu.propTypes = {
+  id: PropTypes.number,
+  email: PropTypes.string,
+  studentId: PropTypes.string,
+  avatar: PropTypes.string,
+  handleUpdateStudentId: PropTypes.object
+};
+
+export default function UserMoreMenu({ id, email, studentId, avatar, handleUpdateStudentId }) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -29,12 +37,13 @@ export default function UserMoreMenu() {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }}>
-          <ListItemIcon>
-            <Icon icon={editFill} width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText primary="Edit student Id" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
+        <UserEditStudentId
+          id={id}
+          email={email}
+          studentId={studentId}
+          avatar={avatar}
+          handleUpdateStudentId={handleUpdateStudentId}
+        />
         <MenuItem sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
             <Icon icon={trash2Outline} width={24} height={24} />

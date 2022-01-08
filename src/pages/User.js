@@ -72,7 +72,7 @@ export default function User() {
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [userList, setUserList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -86,6 +86,15 @@ export default function User() {
       })(),
     []
   );
+
+  const handleUpdateStudentId = (id, studentId) => {
+    setUserList((userList) => {
+      const updatedStudentList = userList.slice();
+      const updatedStudent = updatedStudentList.find((student) => student.id === id);
+      updatedStudent.studentId = studentId;
+      return updatedStudentList;
+    });
+  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -212,7 +221,13 @@ export default function User() {
                             </TableCell>
 
                             <TableCell align="right">
-                              <UserMoreMenu />
+                              <UserMoreMenu
+                                id={id}
+                                email={email}
+                                studentId={studentId}
+                                avatar={avatar}
+                                handleUpdateStudentId={handleUpdateStudentId}
+                              />
                             </TableCell>
                           </TableRow>
                         );

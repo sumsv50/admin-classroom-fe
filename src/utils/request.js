@@ -1,10 +1,10 @@
 import handleError from './handleError';
 
-export async function postData(url = '', data = {}) {
+export async function sendData(method = 'POST', url = '', data = {}) {
   try {
     const token = localStorage.getItem('token');
     const response = await fetch(`${process.env.REACT_APP_BASE_URL}/${url}`, {
-      method: 'POST',
+      method,
       cache: 'no-cache',
       credentials: 'same-origin',
       headers: {
@@ -50,7 +50,7 @@ export async function getData(url = '') {
 
 export async function authentication(data) {
   try {
-    const response = await postData(`api/sign-in`, data);
+    const response = await sendData('POST', `api/sign-in`, data);
     const token = response?.authorization;
 
     if (!response?.isSuccess || !token) {

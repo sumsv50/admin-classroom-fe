@@ -7,10 +7,6 @@ import { getData } from '../../../utils/request';
 
 // ----------------------------------------------------------------------
 
-// ProductList.propTypes = {
-//   products: PropTypes.array.isRequired
-// };
-
 export default function ProductList({ ...other }) {
   const [rooms, setRooms] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
