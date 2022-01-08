@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
 import { useRef, useState } from 'react';
-import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
 // material
-import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Menu, IconButton } from '@mui/material';
 import UserEditStudentId from './UserEditStudentId';
+import UserConfirmEditStatus from './UserConfirmEditStatus';
 
 // ----------------------------------------------------------------------
 
@@ -14,10 +14,20 @@ UserMoreMenu.propTypes = {
   email: PropTypes.string,
   studentId: PropTypes.string,
   avatar: PropTypes.string,
-  handleUpdateStudentId: PropTypes.object
+  status: PropTypes.string,
+  handleUpdateStudentId: PropTypes.object,
+  handleUpdateStatus: PropTypes.object
 };
 
-export default function UserMoreMenu({ id, email, studentId, avatar, handleUpdateStudentId }) {
+export default function UserMoreMenu({
+  id,
+  email,
+  studentId,
+  avatar,
+  status,
+  handleUpdateStudentId,
+  handleUpdateStatus
+}) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -44,12 +54,13 @@ export default function UserMoreMenu({ id, email, studentId, avatar, handleUpdat
           avatar={avatar}
           handleUpdateStudentId={handleUpdateStudentId}
         />
-        <MenuItem sx={{ color: 'text.secondary' }}>
-          <ListItemIcon>
-            <Icon icon={trash2Outline} width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText primary="Ban/Active" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
+        <UserConfirmEditStatus
+          id={id}
+          email={email}
+          status={status}
+          avatar={avatar}
+          handleUpdateStatus={handleUpdateStatus}
+        />
       </Menu>
     </>
   );

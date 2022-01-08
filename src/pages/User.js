@@ -96,6 +96,15 @@ export default function User() {
     });
   };
 
+  const handleUpdateStatus = (id, newStatus) => {
+    setUserList((userList) => {
+      const updatedStudentList = userList.slice();
+      const updatedStudent = updatedStudentList.find((student) => student.id === id);
+      updatedStudent.status = newStatus;
+      return updatedStudentList;
+    });
+  };
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -226,7 +235,9 @@ export default function User() {
                                 email={email}
                                 studentId={studentId}
                                 avatar={avatar}
+                                status={status}
                                 handleUpdateStudentId={handleUpdateStudentId}
+                                handleUpdateStatus={handleUpdateStatus}
                               />
                             </TableCell>
                           </TableRow>
