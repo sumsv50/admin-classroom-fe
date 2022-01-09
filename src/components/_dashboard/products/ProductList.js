@@ -10,7 +10,7 @@ import { getData } from '../../../utils/request';
 export default function ProductList({ ...other }) {
   const [rooms, setRooms] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
+  console.log(rooms);
   useEffect(
     () =>
       (async () => {

@@ -42,7 +42,7 @@ export default function EcommerceShop() {
   };
 
   return (
-    <Page title="Dashboard: Products | FollClassroom">
+    <Page title="Dashboard: Classes | FollClassroom">
       <Container>
         <Typography variant="h4" sx={{ mb: 5 }}>
           Classes

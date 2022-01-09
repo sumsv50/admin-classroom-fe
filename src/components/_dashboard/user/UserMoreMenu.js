@@ -15,8 +15,8 @@ UserMoreMenu.propTypes = {
   studentId: PropTypes.string,
   avatar: PropTypes.string,
   status: PropTypes.string,
-  handleUpdateStudentId: PropTypes.object,
-  handleUpdateStatus: PropTypes.object
+  handleUpdateStudentId: PropTypes.func,
+  handleUpdateStatus: PropTypes.func
 };
 
 export default function UserMoreMenu({

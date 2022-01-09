@@ -19,7 +19,7 @@ ConfirmEditStatusDialog.propTypes = {
   email: PropTypes.string,
   avatar: PropTypes.string,
   status: PropTypes.string,
-  handleUpdateStatus: PropTypes.object
+  handleUpdateStatus: PropTypes.func
 };
 
 export default function ConfirmEditStatusDialog({ id, email, avatar, status, handleUpdateStatus }) {
