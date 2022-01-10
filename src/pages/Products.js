@@ -1,10 +1,16 @@
+import { filter } from 'lodash';
 import { useFormik } from 'formik';
 import { useState, useEffect } from 'react';
 // material
 import { Container, Stack, Typography } from '@mui/material';
 // components
 import Page from '../components/Page';
-import { ProductSort, ProductList, ProductFilterSidebar } from '../components/_dashboard/products';
+import {
+  ProductSort,
+  ProductList,
+  ProductFilterSidebar,
+  ProductListToolbar
+} from '../components/_dashboard/products';
 import LoadingComponent from '../components/_dashboard/app/LoadingComponent';
 import { getData } from '../utils/request';
 
@@ -19,10 +25,19 @@ const checkSort = (criteria, date1, date2) => {
   return date2 - date1;
 };
 
+function applySortFilter(array, query) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  if (query) {
+    return filter(array, (_class) => _class.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+  }
+  return stabilizedThis.map((el) => el[0]);
+}
+
 export default function EcommerceShop() {
   const [openFilter, setOpenFilter] = useState(false);
   const [rooms, setRooms] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [filterName, setFilterName] = useState('');
 
   useEffect(
     () =>
@@ -46,6 +61,10 @@ export default function EcommerceShop() {
     const newRooms = rooms.slice();
     newRooms.sort((room1, room2) => checkSort(criteria, room1.createdAt, room2.createdAt));
     setRooms(newRooms);
+  };
+
+  const handleFilterByName = (event) => {
+    setFilterName(event.target.value);
   };
 
   const formik = useFormik({
@@ -76,6 +95,8 @@ export default function EcommerceShop() {
     resetForm();
   };
 
+  const filteredRooms = applySortFilter(rooms, filterName);
+
   return (
     <Page title="Dashboard: Classes | FollClassroom">
       <Container>
@@ -89,9 +110,10 @@ export default function EcommerceShop() {
             direction="row"
             flexWrap="wrap-reverse"
             alignItems="center"
-            justifyContent="flex-end"
+            justifyContent="space-between"
             sx={{ mb: 5 }}
           >
+            <ProductListToolbar filterName={filterName} onFilterName={handleFilterByName} />
             <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
               <ProductFilterSidebar
                 formik={formik}
@@ -104,7 +126,7 @@ export default function EcommerceShop() {
             </Stack>
           </Stack>
         )}
-        <ProductList rooms={rooms} />
+        <ProductList rooms={filteredRooms} />
       </Container>
     </Page>
   );
