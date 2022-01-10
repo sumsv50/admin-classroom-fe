@@ -32,6 +32,7 @@ const TABLE_HEAD = [
   { id: 'email', label: 'Email', alignRight: false },
   { id: 'studentId', label: 'Student Id', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
+  { id: 'createdAt', label: 'Created at', alignRight: false },
   { id: '' }
 ];
 
@@ -157,6 +158,7 @@ export default function User() {
 
   const isUserNotFound = filteredUsers.length === 0;
 
+  console.log(userList);
   return (
     <Page title="User | FollClassroom">
       <Container>
@@ -192,6 +194,7 @@ export default function User() {
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row) => {
                         const { id, name, email, studentId, avatar, status } = row;
+                        const createdAt = new Date(row.createdAt).toLocaleString();
                         const isItemSelected = selected.indexOf(name) !== -1;
 
                         return (
@@ -228,6 +231,8 @@ export default function User() {
                                 {sentenceCase(status)}
                               </Label>
                             </TableCell>
+
+                            <TableCell align="left">{createdAt}</TableCell>
 
                             <TableCell align="right">
                               <UserMoreMenu
