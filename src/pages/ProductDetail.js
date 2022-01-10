@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, Link } from 'react-router-dom';
 // material
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -25,7 +25,6 @@ import { getData } from '../utils/request';
 export default function ProductDetail() {
   const location = useLocation();
   const { id: classId } = useParams();
-  // let { className, description } = location.state ?? {};
   const [classInfo, setClassInfo] = useState({
     className: location.state?.className,
     description: location.state?.description
@@ -48,7 +47,10 @@ export default function ProductDetail() {
     <Page title="Dashboard: Classes | FollClassroom">
       <Container>
         <Typography variant="h4" sx={{ mb: 2 }}>
-          Classes /{' '}
+          <Link style={{ textDecoration: 'none', color: '#212B36' }} to="../">
+            Classes
+          </Link>{' '}
+          /{' '}
           {classInfo.className ? (
             classInfo.className
           ) : (

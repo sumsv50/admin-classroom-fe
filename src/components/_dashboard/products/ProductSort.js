@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import chevronUpFill from '@iconify/icons-eva/chevron-up-fill';
@@ -8,14 +9,17 @@ import { Menu, Button, MenuItem, Typography } from '@mui/material';
 // ----------------------------------------------------------------------
 
 const SORT_BY_OPTIONS = [
-  { value: 'featured', label: 'Featured' },
-  { value: 'newest', label: 'Newest' },
-  { value: 'priceDesc', label: 'Price: High-Low' },
-  { value: 'priceAsc', label: 'Price: Low-High' }
+  { value: 'newest', label: 'Newest to Oldest' },
+  { value: 'oldest', label: 'Oldest to Newest' }
 ];
 
-export default function ShopProductSort() {
+ShopProductSort.propTypes = {
+  sortList: PropTypes.func
+};
+
+export default function ShopProductSort({ sortList }) {
   const [open, setOpen] = useState(null);
+  const [currCriteria, setCurrCriteria] = useState(SORT_BY_OPTIONS[0]);
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -23,6 +27,16 @@ export default function ShopProductSort() {
 
   const handleClose = () => {
     setOpen(null);
+  };
+
+  const handleSort = (criteria) => {
+    if (criteria.value === currCriteria.value) {
+      handleClose();
+      return;
+    }
+    setCurrCriteria(criteria);
+    sortList(criteria.value);
+    handleClose();
   };
 
   return (
@@ -35,7 +49,7 @@ export default function ShopProductSort() {
       >
         Sort By:&nbsp;
         <Typography component="span" variant="subtitle2" sx={{ color: 'text.secondary' }}>
-          Newest
+          {currCriteria.label}
         </Typography>
       </Button>
       <Menu
@@ -49,8 +63,8 @@ export default function ShopProductSort() {
         {SORT_BY_OPTIONS.map((option) => (
           <MenuItem
             key={option.value}
-            selected={option.value === 'newest'}
-            onClick={handleClose}
+            selected={option.value === currCriteria.value}
+            onClick={() => handleSort(option)}
             sx={{ typography: 'body2' }}
           >
             {option.label}
