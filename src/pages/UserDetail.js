@@ -149,7 +149,7 @@ export default function User() {
                 textAlign: 'center',
                 marginBottom: '50px',
                 padding: '20px',
-                border: 'solid 2px #8b7e4f',
+                border: 'solid 3px #00ab55',
                 fontSize: '14px'
               }}
             >

@@ -31,6 +31,7 @@ import { getData } from '../utils/request';
 
 const TABLE_HEAD = [
   { id: 'email', label: 'Email', alignRight: false },
+  { id: 'name', label: 'Name', alignRight: false },
   { id: 'studentId', label: 'Student Id', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
   { id: 'createdAt', label: 'Created at', alignRight: false },
@@ -72,7 +73,7 @@ export default function User() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState('name');
+  const [orderBy, setOrderBy] = useState('email');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [userList, setUserList] = useState([]);
@@ -226,6 +227,8 @@ export default function User() {
                                 </Link>
                               </Stack>
                             </TableCell>
+
+                            <TableCell align="left">{name}</TableCell>
 
                             <TableCell align="left">{studentId}</TableCell>
 
