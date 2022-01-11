@@ -16,7 +16,7 @@ export async function sendData(method = 'POST', url = '', data = {}) {
       body: JSON.stringify(data)
     });
     if (!response.ok) {
-      return handleError(response);
+      handleError(response);
     }
     const dataRes = await response.json();
     return dataRes;
@@ -37,7 +37,7 @@ export async function getData(url = '') {
       }
     });
     if (!response.ok) {
-      return handleError(response);
+      handleError(response);
     }
 
     const dataRes = await response.json();

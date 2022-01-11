@@ -23,16 +23,16 @@ import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/user';
+import { UserListHead, UserListToolbar, AdminMoreMenu } from '../components/_dashboard/user';
 //
 import { getData } from '../utils/request';
+import useAdminHook from '../contexts/adminHook';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'email', label: 'Email', alignRight: false },
   { id: 'name', label: 'Name', alignRight: false },
-  { id: 'studentId', label: 'Student Id', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
   { id: 'createdAt', label: 'Created at', alignRight: false },
   { id: '' }
@@ -74,41 +74,33 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function User() {
+export default function Admin() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('email');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [userList, setUserList] = useState([]);
+  const [adminList, setAdminList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { adminInfo } = useAdminHook();
 
   useEffect(
     () =>
       (async () => {
         setIsLoading(true);
-        const resData = await getData('api/users');
+        const resData = await getData('api/admins');
         if (!resData.isSuccess) {
           return;
         }
-        setUserList(resData.users ?? []);
+        setAdminList(resData.admins ?? []);
         setIsLoading(false);
       })(),
     []
   );
 
-  const handleUpdateStudentId = (id, studentId) => {
-    setUserList((userList) => {
-      const updatedStudentList = userList.slice();
-      const updatedStudent = updatedStudentList.find((student) => student.id === id);
-      updatedStudent.studentId = studentId;
-      return updatedStudentList;
-    });
-  };
-
   const handleUpdateStatus = (id, newStatus) => {
-    setUserList((userList) => {
+    setAdminList((userList) => {
       const updatedStudentList = userList.slice();
       const updatedStudent = updatedStudentList.find((student) => student.id === id);
       updatedStudent.status = newStatus;
@@ -124,7 +116,7 @@ export default function User() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = userList.map((n) => n.name);
+      const newSelecteds = adminList.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -162,19 +154,18 @@ export default function User() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - userList.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - adminList.length) : 0;
 
-  const filteredUsers = applySortFilter(userList, getComparator(order, orderBy), filterName);
+  const filteredAdmins = applySortFilter(adminList, getComparator(order, orderBy), filterName);
 
-  const isUserNotFound = filteredUsers.length === 0;
+  const isUserNotFound = filteredAdmins.length === 0;
 
-  console.log(userList);
   return (
-    <Page title="User | FollClassroom">
+    <Page title="Admin | FollClassroom">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Users
+            Admins
           </Typography>
         </Stack>
 
@@ -194,16 +185,18 @@ export default function User() {
                     order={order}
                     orderBy={orderBy}
                     headLabel={TABLE_HEAD}
-                    rowCount={userList.length}
+                    rowCount={adminList.length}
                     numSelected={selected.length}
                     onRequestSort={handleRequestSort}
                     onSelectAllClick={handleSelectAllClick}
                   />
                   <TableBody>
-                    {filteredUsers
+                    {filteredAdmins
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row) => {
-                        const { id, name, email, studentId, avatar, status } = row;
+                        const { id, name, email, status } = row;
+                        const avatar =
+                          row.avatar ?? '/static/mock-images/avatars/avatar_default.jpg';
                         const createdAt = new Date(row.createdAt).toLocaleString();
                         const isItemSelected = selected.indexOf(name) !== -1;
 
@@ -233,12 +226,15 @@ export default function User() {
                                     {email}
                                   </Typography>
                                 </Link>
+                                {email === adminInfo?.email ? (
+                                  <Label variant="ghost">Me</Label>
+                                ) : (
+                                  ''
+                                )}
                               </Stack>
                             </TableCell>
 
                             <TableCell align="left">{name}</TableCell>
-
-                            <TableCell align="left">{studentId}</TableCell>
 
                             <TableCell align="left">
                               <Label
@@ -252,15 +248,17 @@ export default function User() {
                             <TableCell align="left">{createdAt}</TableCell>
 
                             <TableCell align="right">
-                              <UserMoreMenu
-                                id={id}
-                                email={email}
-                                studentId={studentId}
-                                avatar={avatar}
-                                status={status}
-                                handleUpdateStudentId={handleUpdateStudentId}
-                                handleUpdateStatus={handleUpdateStatus}
-                              />
+                              {email === adminInfo?.email ? (
+                                ''
+                              ) : (
+                                <AdminMoreMenu
+                                  id={id}
+                                  email={email}
+                                  avatar={avatar}
+                                  status={status}
+                                  handleUpdateStatus={handleUpdateStatus}
+                                />
+                              )}
                             </TableCell>
                           </TableRow>
                         );
@@ -286,7 +284,7 @@ export default function User() {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={userList.length}
+              count={adminList.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}

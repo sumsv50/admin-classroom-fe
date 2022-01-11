@@ -71,9 +71,7 @@ export default function User() {
   const { id: userId } = useParams();
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
-  const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
-  const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [userInfo, setUserInfo] = useState({ classes: [] });
   const [isLoading, setIsLoading] = useState(true);
@@ -83,10 +81,13 @@ export default function User() {
       (async () => {
         setIsLoading(true);
         const resData = await getData(`api/users/${userId}`);
+        if (!resData.isSuccess) {
+          return;
+        }
         setUserInfo(resData.data);
         setIsLoading(false);
       })(),
-    []
+    [userId]
   );
 
   const handleUpdateStudentId = (id, studentId) => {
@@ -123,11 +124,7 @@ export default function User() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - userInfo.classes.length ?? 0) : 0;
 
-  const filteredClasses = applySortFilter(
-    userInfo.classes,
-    getComparator(order, orderBy),
-    filterName
-  );
+  const filteredClasses = applySortFilter(userInfo.classes, getComparator(order, orderBy));
 
   const isClassNotFound = filteredClasses.length === 0;
 
@@ -231,7 +228,6 @@ export default function User() {
                       orderBy={orderBy}
                       headLabel={TABLE_HEAD}
                       rowCount={userInfo.classes.length}
-                      numSelected={selected.length}
                       onRequestSort={handleRequestSort}
                     />
                     <TableBody>
@@ -240,17 +236,8 @@ export default function User() {
                         .map((row) => {
                           const { classId, role, className } = row;
                           const joinedAt = new Date(row.joinedAt).toLocaleString();
-                          const isItemSelected = selected.indexOf(className) !== -1;
-
                           return (
-                            <TableRow
-                              hover
-                              key={classId}
-                              tabIndex={-1}
-                              role="checkbox"
-                              selected={isItemSelected}
-                              aria-checked={isItemSelected}
-                            >
+                            <TableRow hover key={classId} tabIndex={-1} role="checkbox">
                               <TableCell padding="checkbox" />
                               <TableCell component="th" scope="row">
                                 <Link

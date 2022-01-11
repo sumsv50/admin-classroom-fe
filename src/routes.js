@@ -11,6 +11,7 @@ import ProductDetail from './pages/ProductDetail';
 import Blog from './pages/Blog';
 import User from './pages/User';
 import UserDetail from './pages/UserDetail';
+import Admin from './pages/Admin';
 import NotFound from './pages/Page404';
 
 // ----------------------------------------------------------------------
@@ -23,10 +24,11 @@ export default function Router() {
       children: [
         { element: <Navigate to="/dashboard/classes" replace /> },
         { path: 'app', element: <DashboardApp /> },
-        { path: 'user', element: <User /> },
-        { path: 'user/:id', element: <UserDetail /> },
+        { path: 'users', element: <User /> },
+        { path: 'users/:id', element: <UserDetail /> },
         { path: 'classes', element: <Products /> },
         { path: 'classes/:id', element: <ProductDetail /> },
+        { path: 'admins', element: <Admin /> },
         { path: 'blog', element: <Blog /> }
       ]
     },

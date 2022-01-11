@@ -19,10 +19,18 @@ ConfirmEditStatusDialog.propTypes = {
   email: PropTypes.string,
   avatar: PropTypes.string,
   status: PropTypes.string,
+  roleClass: PropTypes.string,
   handleUpdateStatus: PropTypes.func
 };
 
-export default function ConfirmEditStatusDialog({ id, email, avatar, status, handleUpdateStatus }) {
+export default function ConfirmEditStatusDialog({
+  id,
+  email,
+  avatar,
+  status,
+  handleUpdateStatus,
+  roleClass
+}) {
   const [open, setOpen] = React.useState(false);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const isBanned = status === 'banned';
@@ -38,7 +46,7 @@ export default function ConfirmEditStatusDialog({ id, email, avatar, status, han
   const handleConfirm = async () => {
     setIsSubmitting(true);
     const newIsBanned = !isBanned;
-    const dataRes = await sendData('PATCH', `api/users/${id}`, { isBanned: newIsBanned });
+    const dataRes = await sendData('PATCH', `api/${roleClass}/${id}`, { isBanned: newIsBanned });
     if (dataRes.isSuccess) {
       toast.success('Update status successfully!');
       const newStatus = newIsBanned ? 'banned' : 'active';
@@ -91,8 +99,8 @@ export default function ConfirmEditStatusDialog({ id, email, avatar, status, han
           </Stack>
           <DialogContentText id="alert-dialog-description">
             {!isBanned
-              ? 'User will no longer be able to access the system'
-              : 'User will be able to access the system'}
+              ? 'Account will no longer be able to access the system'
+              : 'Account will be able to access the system'}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
