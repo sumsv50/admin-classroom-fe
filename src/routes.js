@@ -12,6 +12,7 @@ import Blog from './pages/Blog';
 import User from './pages/User';
 import UserDetail from './pages/UserDetail';
 import Admin from './pages/Admin';
+import AdminDetail from './pages/AdminDetail';
 import NotFound from './pages/Page404';
 
 // ----------------------------------------------------------------------
@@ -29,6 +30,7 @@ export default function Router() {
         { path: 'classes', element: <Products /> },
         { path: 'classes/:id', element: <ProductDetail /> },
         { path: 'admins', element: <Admin /> },
+        { path: 'admins/:id', element: <AdminDetail /> },
         { path: 'blog', element: <Blog /> }
       ]
     },

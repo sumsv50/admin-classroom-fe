@@ -23,6 +23,7 @@ ConfirmEditStatusDialog.propTypes = {
   handleUpdateStatus: PropTypes.func
 };
 
+const photoAdminURL = '/static/mock-images/avatars/avatar_default.jpg';
 export default function ConfirmEditStatusDialog({
   id,
   email,
@@ -83,7 +84,7 @@ export default function ConfirmEditStatusDialog({
       >
         <DialogTitle id="alert-dialog-title">
           {' '}
-          {!isBanned ? 'Ban' : 'Active'} this user?{' '}
+          {!isBanned ? 'Ban' : 'Active'} this account?{' '}
         </DialogTitle>
         <DialogContent sx={{ minWidth: 450 }}>
           <Stack
@@ -92,7 +93,7 @@ export default function ConfirmEditStatusDialog({
             spacing={2}
             style={{ marginTop: 15, marginBottom: 15 }}
           >
-            <Avatar alt={email} src={avatar} />
+            <Avatar alt={email} src={avatar ?? (roleClass === 'admins' && photoAdminURL)} />
             <Typography variant="subtitle2" noWrap>
               {email}
             </Typography>
