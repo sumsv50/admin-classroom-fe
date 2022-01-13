@@ -2,8 +2,7 @@ import { Icon } from '@iconify/react';
 import pieChart2Fill from '@iconify/icons-eva/pie-chart-2-fill';
 import peopleFill from '@iconify/icons-eva/people-fill';
 import roomFill from '@iconify/icons-eva/book-fill';
-import lockFill from '@iconify/icons-eva/lock-fill';
-import alertTriangleFill from '@iconify/icons-eva/alert-triangle-fill';
+import shieldFill from '@iconify/icons-eva/shield-fill';
 
 // ----------------------------------------------------------------------
 
@@ -22,18 +21,13 @@ const sidebarConfig = [
   },
   {
     title: 'user',
-    path: '/dashboard/user',
+    path: '/dashboard/users',
     icon: getIcon(peopleFill)
   },
   {
-    title: 'login',
-    path: '/login',
-    icon: getIcon(lockFill)
-  },
-  {
-    title: 'Not found',
-    path: '/404',
-    icon: getIcon(alertTriangleFill)
+    title: 'admin',
+    path: '/dashboard/admins',
+    icon: getIcon(shieldFill)
   }
 ];
 

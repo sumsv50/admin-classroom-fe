@@ -4,30 +4,19 @@ import { useRef, useState } from 'react';
 import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
 // material
 import { Menu, IconButton } from '@mui/material';
-import UserEditStudentId from './UserEditStudentId';
 import UserConfirmEditStatus from './UserConfirmEditStatus';
 
 // ----------------------------------------------------------------------
 
-UserMoreMenu.propTypes = {
+AdminMoreMenu.propTypes = {
   id: PropTypes.number,
   email: PropTypes.string,
-  studentId: PropTypes.string,
   avatar: PropTypes.string,
   status: PropTypes.string,
-  handleUpdateStudentId: PropTypes.func,
   handleUpdateStatus: PropTypes.func
 };
 
-export default function UserMoreMenu({
-  id,
-  email,
-  studentId,
-  avatar,
-  status,
-  handleUpdateStudentId,
-  handleUpdateStatus
-}) {
+export default function AdminMoreMenu({ id, email, avatar, status, handleUpdateStatus }) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -47,19 +36,12 @@ export default function UserMoreMenu({
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <UserEditStudentId
-          id={id}
-          email={email}
-          studentId={studentId}
-          avatar={avatar}
-          handleUpdateStudentId={handleUpdateStudentId}
-        />
         <UserConfirmEditStatus
           id={id}
           email={email}
           status={status}
           avatar={avatar}
-          roleClass="users"
+          roleClass="admins"
           handleUpdateStatus={handleUpdateStatus}
         />
       </Menu>

@@ -19,10 +19,19 @@ ConfirmEditStatusDialog.propTypes = {
   email: PropTypes.string,
   avatar: PropTypes.string,
   status: PropTypes.string,
-  handleUpdateStatus: PropTypes.object
+  roleClass: PropTypes.string,
+  handleUpdateStatus: PropTypes.func
 };
 
-export default function ConfirmEditStatusDialog({ id, email, avatar, status, handleUpdateStatus }) {
+const photoAdminURL = '/static/mock-images/avatars/avatar_default.jpg';
+export default function ConfirmEditStatusDialog({
+  id,
+  email,
+  avatar,
+  status,
+  handleUpdateStatus,
+  roleClass
+}) {
   const [open, setOpen] = React.useState(false);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const isBanned = status === 'banned';
@@ -38,7 +47,7 @@ export default function ConfirmEditStatusDialog({ id, email, avatar, status, han
   const handleConfirm = async () => {
     setIsSubmitting(true);
     const newIsBanned = !isBanned;
-    const dataRes = await sendData('PATCH', `api/users/${id}`, { isBanned: newIsBanned });
+    const dataRes = await sendData('PATCH', `api/${roleClass}/${id}`, { isBanned: newIsBanned });
     if (dataRes.isSuccess) {
       toast.success('Update status successfully!');
       const newStatus = newIsBanned ? 'banned' : 'active';
@@ -75,7 +84,7 @@ export default function ConfirmEditStatusDialog({ id, email, avatar, status, han
       >
         <DialogTitle id="alert-dialog-title">
           {' '}
-          {!isBanned ? 'Ban' : 'Active'} this user?{' '}
+          {!isBanned ? 'Ban' : 'Active'} this account?{' '}
         </DialogTitle>
         <DialogContent sx={{ minWidth: 450 }}>
           <Stack
@@ -84,15 +93,15 @@ export default function ConfirmEditStatusDialog({ id, email, avatar, status, han
             spacing={2}
             style={{ marginTop: 15, marginBottom: 15 }}
           >
-            <Avatar alt={email} src={avatar} />
+            <Avatar alt={email} src={avatar ?? (roleClass === 'admins' && photoAdminURL)} />
             <Typography variant="subtitle2" noWrap>
               {email}
             </Typography>
           </Stack>
           <DialogContentText id="alert-dialog-description">
             {!isBanned
-              ? 'User will no longer be able to access the system'
-              : 'User will be able to access the system'}
+              ? 'Account will no longer be able to access the system'
+              : 'Account will be able to access the system'}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

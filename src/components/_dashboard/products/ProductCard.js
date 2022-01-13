@@ -19,6 +19,7 @@ const ProductImgStyle = styled('img')({
 
 ShopProductCard.propTypes = {
   room: PropTypes.object,
+  id: PropTypes.objectOf(PropTypes.number),
   name: PropTypes.objectOf(PropTypes.string),
   description: PropTypes.objectOf(PropTypes.string),
   status: PropTypes.objectOf(PropTypes.string)
@@ -32,7 +33,7 @@ ShopProductCard.defaultProps = {
 };
 
 export default function ShopProductCard({ room }) {
-  const { name, description, status } = room;
+  const { id, name, description, status } = room;
   const cover = 'https://res.cloudinary.com/dzhnjuvzt/image/upload/v1637768355/class_ayj0mh.jpg';
 
   return (
@@ -57,7 +58,13 @@ export default function ShopProductCard({ room }) {
       </Box>
 
       <Stack spacing={2} sx={{ p: 3, pt: 0 }}>
-        <Link to="#" color="inherit" underline="hover" component={RouterLink}>
+        <Link
+          to={`/dashboard/classes/${id}`}
+          color="inherit"
+          underline="hover"
+          component={RouterLink}
+          state={{ className: name, description }}
+        >
           <Typography variant="subtitle1"> {name} </Typography>
         </Link>
         <Stack direction="row" alignItems="center" justifyContent="space-between">

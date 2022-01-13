@@ -5,9 +5,13 @@ function LoadingComponent() {
     <div
       style={{
         display: 'flex',
+        position: 'absolute',
         width: '100%',
-        paddingTop: '15%',
-        justifyContent: 'center'
+        height: '100vh',
+        top: '0',
+        left: '0',
+        justifyContent: 'center',
+        alignItems: 'center'
       }}
     >
       <HashLoader color="#00AB55" />

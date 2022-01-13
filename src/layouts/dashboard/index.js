@@ -39,7 +39,7 @@ export default function DashboardLayout() {
     <RootStyle>
       <DashboardNavbar onOpenSidebar={() => setOpen(true)} />
       <DashboardSidebar isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
-      <MainStyle>
+      <MainStyle style={{ position: 'relative' }}>
         <Outlet />
       </MainStyle>
     </RootStyle>

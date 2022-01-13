@@ -21,7 +21,7 @@ UserEditStudentId.propTypes = {
   email: PropTypes.string,
   studentId: PropTypes.string,
   avatar: PropTypes.string,
-  handleUpdateStudentId: PropTypes.object
+  handleUpdateStudentId: PropTypes.func
 };
 
 export default function UserEditStudentId({ id, email, studentId, avatar, handleUpdateStudentId }) {

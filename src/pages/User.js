@@ -1,6 +1,7 @@
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 // material
 import {
   Card,
@@ -30,8 +31,10 @@ import { getData } from '../utils/request';
 
 const TABLE_HEAD = [
   { id: 'email', label: 'Email', alignRight: false },
+  { id: 'name', label: 'Name', alignRight: false },
   { id: 'studentId', label: 'Student Id', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
+  { id: 'createdAt', label: 'Created at', alignRight: false },
   { id: '' }
 ];
 
@@ -61,7 +64,12 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.email.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(
+      array,
+      (_user) =>
+        _user.email.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+        (_user.name && _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1)
+    );
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -70,7 +78,7 @@ export default function User() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState('name');
+  const [orderBy, setOrderBy] = useState('email');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [userList, setUserList] = useState([]);
@@ -81,6 +89,9 @@ export default function User() {
       (async () => {
         setIsLoading(true);
         const resData = await getData('api/users');
+        if (!resData.isSuccess) {
+          return;
+        }
         setUserList(resData.users ?? []);
         setIsLoading(false);
       })(),
@@ -157,6 +168,7 @@ export default function User() {
 
   const isUserNotFound = filteredUsers.length === 0;
 
+  console.log(userList);
   return (
     <Page title="User | FollClassroom">
       <Container>
@@ -192,6 +204,7 @@ export default function User() {
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row) => {
                         const { id, name, email, studentId, avatar, status } = row;
+                        const createdAt = new Date(row.createdAt).toLocaleString();
                         const isItemSelected = selected.indexOf(name) !== -1;
 
                         return (
@@ -211,12 +224,19 @@ export default function User() {
                             </TableCell>
                             <TableCell component="th" scope="row" padding="none">
                               <Stack direction="row" alignItems="center" spacing={2}>
-                                <Avatar alt={name} src={avatar} />
-                                <Typography variant="subtitle2" noWrap>
-                                  {email}
-                                </Typography>
+                                <Avatar alt={email} src={avatar} />
+                                <Link
+                                  to={`./${id}`}
+                                  style={{ textDecoration: 'none', color: '#212B36' }}
+                                >
+                                  <Typography variant="subtitle2" noWrap>
+                                    {email}
+                                  </Typography>
+                                </Link>
                               </Stack>
                             </TableCell>
+
+                            <TableCell align="left">{name}</TableCell>
 
                             <TableCell align="left">{studentId}</TableCell>
 
@@ -228,6 +248,8 @@ export default function User() {
                                 {sentenceCase(status)}
                               </Label>
                             </TableCell>
+
+                            <TableCell align="left">{createdAt}</TableCell>
 
                             <TableCell align="right">
                               <UserMoreMenu
