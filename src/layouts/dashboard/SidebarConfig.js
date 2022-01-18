@@ -1,5 +1,4 @@
 import { Icon } from '@iconify/react';
-import pieChart2Fill from '@iconify/icons-eva/pie-chart-2-fill';
 import peopleFill from '@iconify/icons-eva/people-fill';
 import roomFill from '@iconify/icons-eva/book-fill';
 import shieldFill from '@iconify/icons-eva/shield-fill';
