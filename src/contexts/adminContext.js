@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { createContext, useState } from 'react';
 
 const AdminContext = createContext();
-const initAdminInfo = JSON.parse(localStorage.getItem('adminInfo'));
+const initAdminInfo = JSON.parse(localStorage.getItem('adminInfo')) ?? {};
 
 const AdminProvider = ({ children }) => {
   const [adminInfo, setAdminInfo] = useState(initAdminInfo);
